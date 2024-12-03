@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenStreetMap-tehtävä</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="container">
+        <h1>Satunnainen sijaintigeneraattori</h1>
+        <div id="map"></div>
+        <div class="controls">
+            <label for="regionSelect">Valitse alue:</label>
+            <select id="regionSelect">
+                <option value="finland">Koko Suomi</option>
+                <option value="helsinki">Helsinki</option>
+                <option value="lapland">Lappi</option>
+            </select>
+            <button id="satunnainenSijainti">Näytä satunnainen sijainti</button>
+            <button id="omaSijainti">Näytä oma sijaintini</button>
+        </div>
+        <div class="info">
+            <h2>Sijaintilista</h2>
+            <ul id="sijaintiLista"></ul>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
