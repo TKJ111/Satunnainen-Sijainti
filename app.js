@@ -47,10 +47,33 @@ document.getElementById("satunnainenSijainti").addEventListener("click", () => {
         distanceInfo = ` (Etäisyys: ${distance.toFixed(2)} km)`;
     }
 
-    // Lisää sijainti listaan
-    const listItem = document.createElement("li");
-    listItem.textContent = `Leveysaste: ${lat.toFixed(4)}, Pituusaste: ${lng.toFixed(4)}${distanceInfo}`;
-    sijaintiLista.appendChild(listItem);
+    // Hae sijaintitiedot Nominatim API:sta
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+        .then(response => response.json())
+        .then(data => {
+            const address = data.address;
+            const locationDetails = `
+                ${address.village || address.town || address.city || "Ei tietoja"},
+                ${address.state || "Ei maakuntaa"},
+                ${address.country || "Ei maata"}
+            `;
+
+            marker.bindPopup(`
+                Sijainti: ${lat.toFixed(4)}, ${lng.toFixed(4)}<br>
+                Lisätiedot: ${locationDetails}
+            `).openPopup();
+
+            // Lisää sijainti listaan
+            const listItem = document.createElement("li");
+            listItem.textContent = `
+                Leveysaste: ${lat.toFixed(4)}, Pituusaste: ${lng.toFixed(4)}${distanceInfo}
+                - ${locationDetails}
+            `;
+            sijaintiLista.appendChild(listItem);
+        })
+        .catch(() => {
+            alert("Sijaintitietoja ei voitu hakea.");
+        });
 });
 
 // Oma sijainti
